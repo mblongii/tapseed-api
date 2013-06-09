@@ -1,0 +1,144 @@
+#!/bin/bash
+# user 0 journey
+mkdir -p tmp/api/$TEMP_VALUE_0;TRACE=tmp/api/$TEMP_VALUE_0/trace
+HEADERS=tmp/api/$TEMP_VALUE_0.headers
+SELF=$TEST_USER_0
+BOGUS_USER=`date +%s`
+
+EXPECT="200 OK" # when '/' receives GET request.
+LINE_NUMBER=$LINENO
+curl "$HOST/" -v -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET / $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="422" # when '/designers' receives POST request to create a designer with an invalid email.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"test#test.com"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "POST /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="201 Created" # when '/designers' receives POST request to create a designer with valid email address.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_USER_0'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "POST /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+ 
+EXPECT="422" # when '/designers' receives POST request with an already registered email.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_USER_0'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "POST /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="401 Unauthorized" # when '/designers' receives GET request w/o token.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="401 Unauthorized" # when '/designers' receives GET request w/ invalid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Auth-Token: $BOGUS_USER" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="200 OK" # when '/designers' receives GET request w/ valid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /designers $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="401 Unauthorized" # when '/designers/:id' receives GET request w/ invalid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers/$DESIGNER_ID" -v -H "Auth-Token: $BOGUS_USER" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /designers/$DESIGNER_ID $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="200 OK" # when '/designers/:id' receives GET request w/ valid auth_token.
+LINE_NUMBER=$LINENO
+curl "$HOST/designers/$DESIGNER_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /designers/$DESIGNER_ID $LINE_NUMBER: Expecting: '$EXPECT'"
+
+# EXPECT="204 No Content" # when '/login' receives GET request.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/login" -v -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "GET /login $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/login' receives POST request to log in user with incorrect password.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/login" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_USER_0'","password":"gandalf"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /login $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/login' receives POST request to log in user with unregistered email.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/login" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$BOGUS_USER'","password":"pa55w0rd"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /login $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/logout' receives DELETE request w/o token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/logout" -v -H "Accept: application/json" -H "Content-type: application/json" -X DELETE -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "DELETE /logout $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="202 Accepted" # when '/logout' receives DELETE request w/ valid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/logout" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X DELETE -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "DELETE /logout $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/storyboards' receives GET request w/ invalid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/storyboards" -v -H "Auth-Token: $BOGUS_USER" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "GET /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/storyboards' receives POST request w/ invalid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/storyboards" -v -H "Auth-Token: $BOGUS_USER" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"name":"Gandalf"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="201 Created" # when '/storyboards' receives POST request w/ valid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/storyboards" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"name":"A Journey"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="200 OK" # when '/storyboards' receives GET request w/ valid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/storyboards" -H "Auth-Token: $AUTH_TOKEN" -v -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "GET /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="201 Created" # when '/sketches' receives POST request w/ sketch URL w/ storyboard id.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/sketches" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"url":"https://s3.bucket.com/foo.jpg","storyboard_id":"'$STORYBOARD_ID'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /sketches $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="422" # when '/sketches' receives POST request w/ sketch URL w/o storyboard id.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/sketches" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"url":"https://s3.bucket.com/foo.jpg"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "POST /sketches $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="401 Unauthorized" # when '/sketches' receives GET request w/ invalid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/sketches" -v -H "Auth-Token: $BOGUS_USER" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "GET /sketches $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="200 OK" # when '/sketches' receives GET request w/ valid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/sketches" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "GET /sketches $LINE_NUMBER: Expecting: '$EXPECT'"
+# 
+# EXPECT="202 Accepted" # when '/logout' receives DELETE request w/ valid token.
+# LINE_NUMBER=$LINENO
+# curl "$HOST/logout" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X DELETE -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+# process_result
+# printf "DELETE /logout $LINE_NUMBER: Expecting: '$EXPECT'"
