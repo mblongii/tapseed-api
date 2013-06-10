@@ -14,12 +14,12 @@ class DesignersController < ApplicationController
         @designers << d
       }
     }
-    render json: @designers
+    render json: @designers, :only => [:id, :avatar_url, :email]
   end
 
   # GET /designers/1
   def show
-    render json: @designer
+    render json: @designer, :only => [:id, :avatar_url, :email]
   end
 
   # POST /designers

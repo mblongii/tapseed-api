@@ -1,14 +1,13 @@
 class StoryboardsController < ApplicationController
-  include GetStoryboardViewers
-  include SetStoryboardViewer
-  before_filter :find, only: [:show, :update, :set_viewer, :get_viewers]
+  wrap_parameters :storyboard, include: [:name, :email]
+  before_filter :find, only: [:show, :update, :invite, :set_viewer, :get_viewers]
   def find
     @storyboard = Storyboard.find(params[:id])
   end
 
   # GET /storyboards
   def index
-    @storyboards = designer.storyboards.all
+    @storyboards = Storyboard.all
     render json: @storyboards
   end
 
@@ -19,7 +18,7 @@ class StoryboardsController < ApplicationController
 
   # POST /storyboards
   def create
-    @storyboard = Storyboard.new(params[:storyboard])
+    @storyboard = designer.storyboards.new(params[:storyboard])
     if @storyboard.save
       render json: @storyboard, status: :created, location: @storyboard
     else

@@ -1,8 +1,8 @@
 #!/bin/bash
-# user 3 journey (exceeds participants count for storyboard)
-mkdir -p tmp/api/$TEMP_VALUE_3;TRACE=tmp/api/$TEMP_VALUE_3/trace
-HEADERS=tmp/api/$TEMP_VALUE_3.headers
-SELF=$TEST_USER_3
+# user 4 journey (friend of user 3 - tests if Users who were first Participants can perform all actions as folks who were Users first)
+mkdir -p tmp/api/$TEMP_VALUE_4;TRACE=tmp/api/$TEMP_VALUE_4/trace
+HEADERS=tmp/api/$TEMP_VALUE_4.headers
+SELF=$TEST_USER_4
 
 EXPECT="201 Created" # when '/users' receives POST request for new user.
 LINE_NUMBER=$LINENO
@@ -24,9 +24,15 @@ printf "GET /users/$USER_ID $LINE_NUMBER: Expecting: '$EXPECT'"
 
 EXPECT="204 No Content" # when '/users/:id' receives PUT request w/ avatar url and w/ user's auth_token.
 LINE_NUMBER=$LINENO
-curl "$HOST/users/$USER_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"avatar_url":"'$TEST_USER_3_AVATAR'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+curl "$HOST/users/$USER_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"avatar_url":"'$TEST_USER_4_AVATAR'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
 process_result
 printf "GET /users/$USER_ID $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="201 Created" # when '/storyboards' receives POST request w/ valid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/storyboards" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"name":"A Journey"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "POST /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
 
 EXPECT="201 Created" # when '/sketches' receives POST request w/ sketch URL w/ storyboard id.
 LINE_NUMBER=$LINENO
@@ -46,21 +52,9 @@ curl "$HOST/storyboards" -H "Auth-Token: $AUTH_TOKEN" -v -H "Accept: application
 process_result
 printf "GET /storyboards $LINE_NUMBER: Expecting: '$EXPECT'"
 
-EXPECT="204 No Content" # when '/storyboards/:id' receives PUT request w/ participant.
+EXPECT="204 No Content" # when '/storyboards/:id' receives PUT request w/ add'l participant who is not yet a user.
 LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"participant":"'$TEST_USER_1'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
-process_result
-printf "PUT /storyboards/$STORYBOARD_ID $LINE_NUMBER: Expecting: '$EXPECT'"
-
-EXPECT="204 No Content" # when '/storyboards/:id' receives PUT request w/ add'l participant who is a user.
-LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"participant":"'$TEST_USER_2'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
-process_result
-printf "PUT /storyboards/$STORYBOARD_ID $LINE_NUMBER: Expecting: '$EXPECT'"
-
-EXPECT="422" # when '/storyboards/:id' receives PUT request w/ add'l participant who is not yet a user, and exceeds participants count for storyboard.
-LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"participant":"user3friend@test.com"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+curl "$HOST/storyboards/$STORYBOARD_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"participant":"user4friend@test.com"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
 process_result
 printf "PUT /storyboards/$STORYBOARD_ID $LINE_NUMBER: Expecting: '$EXPECT'"
 

@@ -1,11 +1,21 @@
 App::Application.routes.draw do
-  root 'welcome#index'
-  resources :storyboards do
-    member do
-      get 'get_viewers'
-      put 'set_viewer'
-    end
+
+  resources :sketches,      only: [:show]
+
+  resources :designers do
+    resources :storyboards, only: [ :index, :show, :create, :update]
+    resources :sketches,    only: [ :index, :show, :create, :update]
   end
-  resources :sketches, except: [:new, :edit]
-  resources :designers, except: [:new, :edit]
+
+  resources :storyboards do
+    post 'invite',          on: :member
+    get 'get_viewers',      on: :member
+    put 'set_viewer',       on: :member
+    
+    resources :designers,   only: [:index, :show, :create]
+    resources :sketches,    only: [:index, :show]
+  end
+
+  root 'welcome#index'
+
 end

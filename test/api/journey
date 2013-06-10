@@ -1,9 +1,9 @@
 #!/bin/bash
 DIR=`dirname $0`
 source $DIR/_setup
-source $DIR/_user_0_journey
-# source $DIR/_user_1_journey
-# source $DIR/_user_2_journey
+source $DIR/_user_1_journey
+source $DIR/_user_2_journey
 # source $DIR/_user_3_journey
 # source $DIR/_user_4_journey
+# source $DIR/_user_5_journey
 source $DIR/_teardown

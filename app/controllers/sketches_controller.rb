@@ -17,7 +17,7 @@ class SketchesController < ApplicationController
 
   # POST /sketches
   def create
-    @sketch = Sketch.new(params[:sketch])
+    @sketch = designer.sketches.new(params[:sketch])
     if @sketch.save
       render json: @sketch, status: :created, location: @sketch
     else
