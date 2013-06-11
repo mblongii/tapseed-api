@@ -1,7 +1,7 @@
 module StoryboardViewers
   extend ActiveSupport::Concern
 
-  # GET /storyboards/1/designers/invite
+  # GET /storyboards/1/invite
   def invite
     @designer = @storyboard.designers.new(params[:storyboard])
     if @designer.save
