@@ -14,12 +14,12 @@ class DesignersController < ApplicationController
         @designers << d
       }
     }
-    render json: @designers, :only => [:id, :avatar_url, :email]
+    render json: @designers, :except => [:auth_token]
   end
 
   # GET /designers/1
   def show
-    render json: @designer, :only => [:id, :avatar_url, :email]
+    render json: @designer, :except => [:auth_token]
   end
 
   # POST /designers
