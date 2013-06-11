@@ -3,8 +3,8 @@ class WelcomeController < ApplicationController
 
   def index
     render :json => {
-      description: 'Tapseed: Get the whole team involved in the design process',
-      info: 'http://tapseed.co'
+      description: 'Tapseed: Get the whole team involved in the design process.',
+      info: 'http://tapseed.co/'
     }
   end
 end

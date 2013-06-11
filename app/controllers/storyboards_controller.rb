@@ -1,6 +1,10 @@
 class StoryboardsController < ApplicationController
+  include PushMessage
+  include StoryboardViewers
+
   wrap_parameters :storyboard, include: [:name, :email]
   before_filter :find, only: [:show, :update, :invite, :set_viewer, :get_viewers]
+
   def find
     @storyboard = Storyboard.find(params[:id])
   end

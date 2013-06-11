@@ -1,7 +1,4 @@
 class ApplicationController < ActionController::API
-  include PushMessage
-  include StoryboardViewers
-
   before_filter :authenticate!
 
 private

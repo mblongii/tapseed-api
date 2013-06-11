@@ -1,5 +1,7 @@
 class SketchesController < ApplicationController
+  wrap_parameters :sketch, include: [:url, :storyboard_id]
   before_filter :find, only: [:show, :update]
+
   def find
     @sketch = Sketch.find(params[:id])
   end

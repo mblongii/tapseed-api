@@ -1,6 +1,8 @@
 class DesignersController < ApplicationController
+  wrap_parameters :designer, include: [:email, :avatar_url]
   skip_before_filter :authenticate!, only: [:create]
   before_filter :find, only: [:show, :update]
+
   def find
     @designer = Designer.find(params[:id])
   end

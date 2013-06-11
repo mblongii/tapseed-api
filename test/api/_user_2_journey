@@ -59,18 +59,18 @@ curl "$HOST/designers" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/j
 process_result
 printf "GET /designers $LINE_NUMBER: Expecting: '$EXPECT'"
 
-# EXPECT="200 OK" # when '/storyboards/:id/set_viewer' receives PUT request w/ valid token.
-# LINE_NUMBER=$LINENO
-# curl "$HOST/storyboards/$STORYBOARD_ID/set_viewer" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"participant":"'$SELF'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
-# process_result
-# printf "PUT /storyboards/$STORYBOARD_ID/set_viewer $LINE_NUMBER: Expecting: '$EXPECT'"
-# 
-# EXPECT="200 OK" # when '/storyboards/:id/get_viewers' receives GET request w/ valid token.
-# LINE_NUMBER=$LINENO
-# curl "$HOST/storyboards/$STORYBOARD_ID/get_viewers" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
-# process_result
-# printf "GET /storyboards/$STORYBOARD_ID/get_viewers $LINE_NUMBER: Expecting: '$EXPECT'"
-# 
+EXPECT="200 OK" # when '/storyboards/:id/set-viewer' receives PUT request w/ valid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/storyboards/$STORYBOARD_ID/set-viewer" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"designer_id":"'$DESIGNER_ID'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "PUT /storyboards/$STORYBOARD_ID/set-viewer $LINE_NUMBER: Expecting: '$EXPECT'"
+
+EXPECT="200 OK" # when '/storyboards/:id/get-viewers' receives GET request w/ valid token.
+LINE_NUMBER=$LINENO
+curl "$HOST/storyboards/$STORYBOARD_ID/get-viewers" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /storyboards/$STORYBOARD_ID/get-viewers $LINE_NUMBER: Expecting: '$EXPECT'"
+
 # EXPECT="200 OK" # when '/storyboards' receives GET request w/ valid token.
 # LINE_NUMBER=$LINENO
 # curl "$HOST/storyboards" -H "Auth-Token: $AUTH_TOKEN" -v -H "Accept: application/json" -H "Content-type: application/json" -X GET -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
