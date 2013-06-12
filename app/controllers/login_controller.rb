@@ -10,7 +10,7 @@ class LoginController < ApplicationController
   def create
     @designer = Designer.find_or_create_by(email: params[:email])
     if @designer
-      head auth_token: @designer.auth_token
+      head location: @designer, auth_token: @designer.auth_token
     else
       render json: @designer.errors, status: :unprocessable_entity,
         success: :false, status: :unauthorized

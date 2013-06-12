@@ -5,6 +5,12 @@ HEADERS=tmp/api/$TEMP_VALUE_2.headers
 SELF=$TEST_DESIGNER_2
 printf "\n$SELF"
 
+EXPECT="200 OK" # when '/login' receives POST request w/ valid email.
+LINE_NUMBER=$LINENO
+curl "$HOST/login" -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$SELF'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+process_result
+printf "GET /login $LINE_NUMBER: Expecting: '$EXPECT'"
+
 EXPECT="204 No Content" # when '/designers/:id' receives PUT request w/ avatar url and w/ designer's auth_token.
 LINE_NUMBER=$LINENO
 curl "$HOST/designers/$DESIGNER_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"avatar_url":"'$TEST_DESIGNER_2_AVATAR'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1

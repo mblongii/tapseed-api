@@ -12,7 +12,8 @@
     var pusher = new Pusher('fad1a1417e8062980240');
     var channel = pusher.subscribe('tapseed_channel');
     channel.bind('viewer', function(data) {
-      $('.viewers').append("<img src="+data.message.designer.avatar_url+"/>");
+      if (data.message.designer.avatar_url) $('.viewers').append("<img src="+data.message.designer.avatar_url+" />");
+      if (!data.message.designer.avatar_url) $('.viewers').append("<img src='http://127.0.0.1:3000/test/images/avatar_0.jpeg' />");
     });
   </script>
 </head>
