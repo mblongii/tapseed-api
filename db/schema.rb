@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130607195133) do
+ActiveRecord::Schema.define(version: 20130611172424) do
 
   create_table "designers", force: true do |t|
     t.string   "email"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20130607195133) do
     t.datetime "updated_at"
     t.integer  "storyboard_id"
     t.integer  "viewing_storyboard_id"
+  end
+
+  create_table "participants", force: true do |t|
+    t.string   "email"
+    t.integer  "storyboard_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sketches", force: true do |t|

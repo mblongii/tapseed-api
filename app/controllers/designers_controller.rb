@@ -1,4 +1,6 @@
 class DesignersController < ApplicationController
+  include Storyboards
+
   wrap_parameters :designer, include: [:email, :avatar_url]
   skip_before_filter :authenticate!, only: [:create]
   before_filter :find, only: [:show, :update]
@@ -9,19 +11,18 @@ class DesignersController < ApplicationController
 
   # GET /designers
   def index
-    # @designers = Designer.all
     @designers = []
-    designer.storyboards.each {|s| 
-      s.designers.each {|d|
-        @designers << d
+    storyboards.each {|s|
+      s.participants.each {|p|
+        @designers << Designer.where(email: p.email)
       }
     }
-    render json: @designers, :except => [:auth_token]
+    render json: @designers, except: [:auth_token]
   end
 
   # GET /designers/1
   def show
-    render json: @designer, :except => [:auth_token]
+    render json: @designer, except: [:auth_token]
   end
 
   # POST /designers

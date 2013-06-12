@@ -1,9 +1,10 @@
 class StoryboardsController < ApplicationController
-  include PushMessage
+  include StoryboardParticipants
   include StoryboardViewers
+  include Storyboards
 
   wrap_parameters :storyboard, include: [:name, :email]
-  before_filter :find, only: [:show, :update, :invite, :set_viewer, :get_viewers]
+  before_filter :find, only: [:show, :update, :invite, :get_participants, :set_viewer, :get_viewers]
 
   def find
     @storyboard = Storyboard.find(params[:id])
@@ -11,7 +12,7 @@ class StoryboardsController < ApplicationController
 
   # GET /storyboards
   def index
-    @storyboards = Storyboard.all
+    @storyboards = storyboards
     render json: @storyboards
   end
 

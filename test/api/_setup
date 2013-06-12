@@ -1,13 +1,14 @@
 #!/bin/bash
 rm -rf tmp/api
 # Open pusher.html in a browser window to see storyboard participant's avatars.
-open pusher*.html
+# open pusher*.html
 # Variables
 if [[ -z "$1" ]]
   then PORT="3000"
 else
   PORT=$1
 fi
+# HOST="https://127.0.0.1:$PORT"
 HOST="http://127.0.0.1:$PORT"
 # Start the server, dummy.
 printf "Waiting for you to start the server on $HOST"
@@ -38,6 +39,10 @@ TEST_DESIGNER_4_AVATAR="$HOST/test/images/avatar_4.png"
 TEMP_VALUE_5=`date +%s | md5`_5
 TEST_DESIGNER_5="$TEMP_VALUE_5@test5.com"
 TEST_DESIGNER_5_AVATAR="$HOST/test/images/avatar_5.png"
+# user 6
+TEMP_VALUE_6=`date +%s | md5`_6
+TEST_DESIGNER_6="$TEMP_VALUE_6@test6.com"
+# TEST_DESIGNER_6_AVATAR="$HOST/test/images/avatar_6.png"
 # funkshuns
 function get_designer_location {
   cat $HEADERS | grep 'Location: ' | grep 'designers' | cut -c 43,43 | tr -d '\r'

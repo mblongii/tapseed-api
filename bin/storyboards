@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+Storyboard.all.each {|s|
+  p "#{s.id}: #{s.name}, #{Designer.find_by(id: s.designer_id).email}"
+  s.participants.each {|p|
+    p "Participant: #{p.email}, Storyboard: #{p.storyboard_id}"
+  }
+}
