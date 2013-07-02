@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -rf tmp/api
-thin -p 3000 -s 1 stop
-thin -p 3000 --daemonize -s 1 start
+bundle exec thin -p 3000 -s 1 stop
+bundle exec thin -p 3000 --daemonize -s 1 start
 # Open pusher.html in a browser window to see storyboard participant's avatars.
 # if [[ `command -v open` ]]
 #   then open pusher*.html
