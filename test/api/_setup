@@ -3,10 +3,9 @@ rm -rf tmp/api
 bundle exec thin -p 3000 -s 1 stop
 bundle exec thin -p 3000 --daemonize -s 1 start
 # Open pusher.html in a browser window to see storyboard participant's avatars.
-# if [[ `command -v open` ]]
-#   then open pusher*.html
-# fi
-echo "Hello."
+if [[ `command -v open` ]]
+  then open pusher*.html
+fi
 # Variables
 if [[ -z "$1" ]]
   then PORT="3000"
@@ -25,27 +24,27 @@ do
   fi
 done
 # user 1
-TEMP_VALUE_1=`date +%s | md5`_1
+TEMP_VALUE_1=`echo $RANDOM`_1
 TEST_DESIGNER_1="$TEMP_VALUE_1@test1.com"
 TEST_DESIGNER_1_AVATAR="$HOST/test/images/avatar_1.png"
 # user 2
-TEMP_VALUE_2=`date +%s | md5`_2
+TEMP_VALUE_2=`echo $RANDOM`_2
 TEST_DESIGNER_2="$TEMP_VALUE_2@test2.com"
 TEST_DESIGNER_2_AVATAR="$HOST/test/images/avatar_2.png"
 # user 3
-TEMP_VALUE_3=`date +%s | md5`_3
+TEMP_VALUE_3=`echo $RANDOM`_3
 TEST_DESIGNER_3="$TEMP_VALUE_3@test3.com"
 TEST_DESIGNER_3_AVATAR="$HOST/test/images/avatar_3.png"
 # user 4
-TEMP_VALUE_4=`date +%s | md5`_4
+TEMP_VALUE_4=`echo $RANDOM`_4
 TEST_DESIGNER_4="$TEMP_VALUE_4@test4.com"
 TEST_DESIGNER_4_AVATAR="$HOST/test/images/avatar_4.png"
 # user 5
-TEMP_VALUE_5=`date +%s | md5`_5
+TEMP_VALUE_5=`echo $RANDOM`_5
 TEST_DESIGNER_5="$TEMP_VALUE_5@test5.com"
 TEST_DESIGNER_5_AVATAR="$HOST/test/images/avatar_5.png"
 # user 6
-TEMP_VALUE_6=`date +%s | md5`_6
+TEMP_VALUE_6=`echo $RANDOM`_6
 TEST_DESIGNER_6="$TEMP_VALUE_6@test6.com"
 # TEST_DESIGNER_6_AVATAR="$HOST/test/images/avatar_6.png"
 # funkshuns
@@ -65,7 +64,7 @@ function process_result {
   # Is this the result you were exepecting?
   if [[ -z `cat $HEADERS | grep "$EXPECT"` ]]
     then printf "\nFAIL! `head -1 $HEADERS`\n"
-    # exit 1
+    exit 1
   else
     printf "\nPASSED! "
   fi
