@@ -7,13 +7,14 @@ if [[ `command -v open` ]]
   then open pusher*.html
 fi
 # Variables
-if [[ -z "$1" ]]
-  then PORT="3000"
-else
-  PORT=$1
-fi
+# if [[ -z "$1" ]]
+#   then PORT="3000"
+# else
+#   PORT=$1
+# fi
 # HOST="https://127.0.0.1:$PORT"
-HOST="http://127.0.0.1:$PORT"
+# HOST="http://127.0.0.1:$PORT"
+HOST="http://127.0.0.1:3000"
 # Start the server, dummy.
 printf "Waiting for you to start the server on $HOST"
 while :
