@@ -2,9 +2,9 @@ App::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # realtime WebSocket goodness
-  Pusher.app_id = 45296
-  Pusher.key = '95d11eae459e3f59fe9b'
-  Pusher.secret = '27e1a0b90fb9715ad598'
+  Pusher.app_id = ENV["PUSHER_APP_ID__PRODUCTION"]
+  Pusher.key = ENV["PUSHER_KEY__PRODUCTION"]
+  Pusher.secret = ENV["PUSHER_SECRET__PRODUCTION"]
 
   # Code is not reloaded between requests.
   config.cache_classes = true

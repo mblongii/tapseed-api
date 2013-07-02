@@ -2,9 +2,9 @@ App::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # realtime WebSocket goodness
-  Pusher.app_id = 45297
-  Pusher.key = 'fad1a1417e8062980240'
-  Pusher.secret = 'b94b0116f2d3c270872b'
+  Pusher.app_id = ENV["PUSHER_APP_ID__DEVELOPMENT"]
+  Pusher.key = ENV["PUSHER_KEY__DEVELOPMENT"]
+  Pusher.secret = ENV["PUSHER_SECRET__DEVELOPMENT"]
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
