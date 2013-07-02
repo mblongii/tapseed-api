@@ -1,7 +1,9 @@
 #!/bin/bash
 rm -rf tmp/api
 # Open pusher.html in a browser window to see storyboard participant's avatars.
-open pusher*.html
+if [[ `command -v open` ]]
+  then open pusher*.html
+fi
 # Variables
 if [[ -z "$1" ]]
   then PORT="3000"
