@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -e
-set -x
-
-thin -e production -p 3000 --daemonize -s 1 start
