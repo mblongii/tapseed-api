@@ -8,7 +8,7 @@ class SketchesController < ApplicationController
 
   # GET /sketches
   def index
-    @sketches = designer.sketches
+    @sketches = current_designer.sketches
     render json: @sketches
   end
 
@@ -19,7 +19,7 @@ class SketchesController < ApplicationController
 
   # POST /sketches
   def create
-    @sketch = designer.sketches.new(params[:sketch])
+    @sketch = current_designer.sketches.new(params[:sketch])
     if @sketch.save
       render json: @sketch, status: :created, location: @sketch
     else

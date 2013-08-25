@@ -22,7 +22,7 @@ class DesignersController < ApplicationController
 
   # GET /designers/1
   def show
-    render json: @designer, except: [:auth_token]
+    render json: @designer, except: [:auth_token, :storyboard_id, :viewing_storyboard_id]
   end
 
   # POST /designers
@@ -37,10 +37,12 @@ class DesignersController < ApplicationController
 
   # PATCH/PUT /designers/1
   def update
-    if @designer.update(params[:designer])
-      head :no_content
-    else
-      render json: @designer.errors, status: :unprocessable_entity
+    if current_designer.id == @designer.id # prevent users from modifying each others settings (e.g., email and/or avatar)
+      if @designer.update(params[:designer])
+        head :no_content
+      else
+        render json: @designer.errors, status: :unprocessable_entity
+      end
     end
   end
 

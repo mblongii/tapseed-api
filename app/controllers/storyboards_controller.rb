@@ -23,7 +23,7 @@ class StoryboardsController < ApplicationController
 
   # POST /storyboards
   def create
-    @storyboard = designer.storyboards.new(params[:storyboard])
+    @storyboard = current_designer.storyboards.new(params[:storyboard])
     if @storyboard.save
       render json: @storyboard, status: :created, location: @storyboard
     else

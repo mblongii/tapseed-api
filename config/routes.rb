@@ -15,9 +15,9 @@ App::Application.routes.draw do
   end
 
   resources :storyboards do
-    get 'get-viewers',      on: :member, action: :get_viewers
-    put 'set-viewer',       on: :member, action: :set_viewer
-    get 'get-participants', on: :member, action: :get_participants
+    get 'viewers',          on: :member, action: :get_viewers
+    put 'viewer',           on: :member, action: :set_viewer
+    get 'participants',     on: :member, action: :get_participants
     post 'invite',          on: :member, action: :invite
 
     resources :designers,   only: [:index, :show, :create]

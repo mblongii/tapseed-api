@@ -17,9 +17,9 @@ curl "$HOST/designers/$DESIGNER_ID" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: 
 process_result
 printf "GET /designers/$DESIGNER_ID $LINE_NUMBER: Expecting: '$EXPECT'"
 
-EXPECT="200 OK" # when '/storyboards/:id/set-viewer' receives PUT request w/ valid token.
+EXPECT="200 OK" # when '/storyboards/:id/viewer' receives PUT request w/ valid token.
 LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID/set-viewer" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+curl "$HOST/storyboards/$STORYBOARD_ID/viewer" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X PUT -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
 process_result
-printf "PUT /storyboards/$STORYBOARD_ID/set-viewer $LINE_NUMBER: Expecting: '$EXPECT'"
+printf "PUT /storyboards/$STORYBOARD_ID/viewer $LINE_NUMBER: Expecting: '$EXPECT'"
 

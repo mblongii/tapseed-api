@@ -3,12 +3,12 @@ class ApplicationController < ActionController::API
 
 private
   def authenticate!
-    @designer = Designer.find_by(auth_token: request.headers["Auth-Token"])
+    @authenticated_user = Designer.find_by(auth_token: request.headers["Auth-Token"])
     render :json => { error: "Invalid token." }, 
-        success: :false, status: :unauthorized unless @designer
+        success: :false, status: :unauthorized unless @authenticated_user
   end
 
-  def designer
-    @designer
+  def current_designer
+    @authenticated_user
   end
 end
