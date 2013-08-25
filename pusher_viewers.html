@@ -9,7 +9,7 @@
       if (window.console && window.console.log) window.console.log(message);
     };
 
-    var pusher = new Pusher('fad1a1417e8062980240');
+    var pusher = new Pusher('42c45943ab07a36cf064');
     var channel = pusher.subscribe('tapseed_channel');
     channel.bind('viewer', function(data) {
       if (data.message.designer.avatar_url) $('.viewers').append("<img src="+data.message.designer.avatar_url+" />");

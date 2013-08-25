@@ -1,5 +1,5 @@
 #!/bin/bash
-# designer 3 journey
+# designer 6 journey
 mkdir -p tmp/api/$TEMP_VALUE_6;TRACE=tmp/api/$TEMP_VALUE_6/trace
 HEADERS=tmp/api/$TEMP_VALUE_6.headers
 SELF=$TEST_DESIGNER_6

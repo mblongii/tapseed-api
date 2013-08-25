@@ -1,5 +1,5 @@
 #!/bin/bash
 CLEAN='rake db:drop db:migrate'
 printf "\n$CLEAN\n"
-$CLEAN > /dev/null 2>&1
+`$CLEAN` > /dev/null 2>&1
 bundle exec thin -p 3000 -s 1 stop

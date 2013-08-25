@@ -49,13 +49,7 @@ printf "POST /storyboards/$STORYBOARD_ID/invite $LINE_NUMBER: Expecting: '$EXPEC
 
 EXPECT="201 Created" # when '/storyboards/:id/invite' receives POST request w/ new designer.
 LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID/invite" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_DESIGNER_3'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
-process_result
-printf "POST /storyboards/$STORYBOARD_ID/invite $LINE_NUMBER: Expecting: '$EXPECT'"
-
-EXPECT="201 Created" # when '/storyboards/:id/invite' receives POST request w/ new designer.
-LINE_NUMBER=$LINENO
-curl "$HOST/storyboards/$STORYBOARD_ID/invite" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_DESIGNER_3'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
+curl "$HOST/storyboards/$STORYBOARD_ID/invite" -v -H "Auth-Token: $AUTH_TOKEN" -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"email":"'$TEST_DESIGNER_6'"}' -D $HEADERS --trace-ascii $TRACE.$LINE_NUMBER > /dev/null 2>&1
 process_result
 printf "POST /storyboards/$STORYBOARD_ID/invite $LINE_NUMBER: Expecting: '$EXPECT'"
 

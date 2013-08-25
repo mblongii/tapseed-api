@@ -1,20 +1,16 @@
 #!/bin/bash
 rm -rf tmp/api
-bundle exec thin -p 3000 -s 1 stop
+
+bundle exec thin -p 3000 -s 1 stop # just in case one is already running
 bundle exec thin -p 3000 --daemonize -s 1 start
+
 # Open pusher.html in a browser window to see storyboard participant's avatars.
 if [[ `command -v open` ]]
   then open pusher*.html
 fi
-# Variables
-# if [[ -z "$1" ]]
-#   then PORT="3000"
-# else
-#   PORT=$1
-# fi
-# HOST="https://127.0.0.1:$PORT"
-# HOST="http://127.0.0.1:$PORT"
+
 HOST="http://127.0.0.1:3000"
+
 # Start the server, dummy.
 printf "Waiting for you to start the server on $HOST"
 while :
@@ -24,6 +20,7 @@ do
     break
   fi
 done
+
 # user 1
 TEMP_VALUE_1=`echo $RANDOM`_1
 TEST_DESIGNER_1="$TEMP_VALUE_1@test1.com"
